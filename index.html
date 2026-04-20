@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopEase | Modern E-Commerce</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #0f172a;
+      --accent: #f59e0b;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #334155;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    img { max-width: 100%; display: block; }
+    button { cursor: pointer; border: none; font-family: inherit; }
+
+    /* Header */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--surface); box-shadow: var(--shadow);
+      padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { font-weight: 500; transition: var(--transition); }
+    .nav-links a:hover { color: var(--primary); }
+    .header-actions { display: flex; align-items: center; gap: 1.5rem; }
+    .cart-btn { position: relative; font-size: 1.2rem; background: transparent; padding: 0.5rem; }
+    .cart-count {
+      position: absolute; top: 0; right: 0; background: var(--accent); color: var(--white);
+      font-size: 0.7rem; font-weight: bold; width: 18px; height: 18px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; transform: translate(30%, -30%);
+    }
+    .hamburger { display: none; background: none; font-size: 1.5rem; }
+
+    /* Hero */
+    .hero {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+      padding: 4rem 5%; min-height: 80vh; background: linear-gradient(135deg, #e0e7ff, #f8fafc);
+    }
+    .hero-content { max-width: 600px; padding: 2rem; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; margin-bottom: 1rem; color: var(--secondary); }
+    .hero p { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2rem; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2rem;
+      background: var(--primary); color: var(--white); border-radius: 8px; font-weight: 600;
+      transition: var(--transition);
+    }
+    .btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
+    .hero-img { flex: 1; max-width: 500px; padding: 2rem; }
+    .hero-img img { border-radius: 16px; box-shadow: var(--shadow); }
+
+    /* Products */
+    .products { padding: 4rem 5%; }
+    .section-title { text-align: center; font-size: 2rem; margin-bottom: 0.5rem; }
+    .section-sub { text-align: center; color: var(--text-light); margin-bottom: 2.5rem; }
+    .product-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem;
+    }
+    .product-card {
+      background: var(--surface); border-radius: 12px; overflow: hidden;
+      box-shadow: var(--shadow); transition: var(--transition); opacity: 0; transform: translateY(20px);
+    }
+    .product-card.visible { opacity: 1; transform: translateY(0); }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
+    .product-img { width: 100%; height: 220px; object-fit: cover; background: #e2e8f0; }
+    .product-info { padding: 1.2rem; }
+    .product-name { font-weight: 600; margin-bottom: 0.5rem; }
+    .product-price { color: var(--primary); font-weight: 700; font-size: 1.1rem; margin-bottom: 1rem; }
+    .add-to-cart {
+      width: 100%; padding: 0.8rem; background: var(--secondary); color: var(--white);
+      border-radius: 6px; font-weight: 500; transition: var(--transition);
+    }
+    .add-to-cart:hover { background: var(--primary); }
+
+    /* Newsletter */
+    .newsletter {
+      background: var(--secondary); color: var(--white); padding: 4rem 5%; text-align: center;
+    }
+    .newsletter h2 { font-size: 2rem; margin-bottom: 1rem; }
+    .newsletter p { color: #94a3b8; margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .form-group { display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto; }
+    .form-group input { flex: 1; padding: 0.9rem; border-radius: 8px; border: none; outline: none; }
+    .form-group button { background: var(--accent); color: var(--secondary); font-weight: 600; padding: 0.9rem 1.5rem; border-radius: 8px; }
+
+    /* Footer */
+    footer { background: #0b1120; color: #64748b; padding: 3rem 5% 1.5rem; text-align: center; }
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 2rem; }
+    .footer-links a:hover { color: var(--white); }
+    .copyright { font-size: 0.9rem; border-top: 1px solid #1e293b; padding-top: 1.5rem; }
+
+    /* Toast */
+    #toast {
+      position: fixed; bottom: 2rem; right: 2rem; background: var(--secondary); color: var(--white);
+      padding: 1rem 1.5rem; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      transform: translateY(100px); opacity: 0; transition: var(--transition); z-index: 200;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hamburger { display: block; }
+      .nav-links {
+        position: fixed; top: 70px; left: 0; right: 0; background: var(--surface);
+        flex-direction: column; padding: 2rem; gap: 1.5rem; box-shadow: var(--shadow);
+        transform: translateY(-150%); transition: var(--transition);
+      }
+      .nav-links.active { transform: translateY(0); }
+      .hero { text-align: center; flex-direction: column-reverse; padding-top: 2rem; }
+      .hero-img { max-width: 90%; }
+      .form-group { flex-direction: column; }
+    }
+
+    @keyframes pop {
+      0% { transform: translate(30%, -30%) scale(1); }
+      50% { transform: translate(30%, -30%) scale(1.3); }
+      100% { transform: translate(30%, -30%) scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <a href="#" class="logo">ShopEase.</a>
+    <button class="hamburger" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#newsletter">Contact</a></li>
+    </ul>
+    <div class="header-actions">
+      <button class="cart-btn" aria-label="Cart">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>Discover Premium Quality Essentials</h1>
+      <p>Curated collections designed for modern living. Free shipping on all orders over $50.</p>
+      <a href="#products" class="btn">Shop Now <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="hero-img">
+      <img src="https://placehold.co/600x400/e0e7ff/1e293b?text=Modern+Lifestyle" alt="Hero Product">
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="products" id="products">
+    <h2 class="section-title">Featured Collection</h2>
+    <p class="section-sub">Handpicked items just for you</p>
+    <div class="product-grid">
+      <div class="product-card">
+        <img src="https://placehold.co/400x300/f1f5f9/334155?text=Wireless+Headphones" class="product-img" alt="Product">
+        <div class="product-info">
+          <h3 class="product-name">Premium Wireless Headphones</h3>
+          <p class="product-price">$89.99</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <img src="https://placehold.co/400x300/f1f5f9/334155?text=Smart+Watch" class="product-img" alt="Product">
+        <div class="product-info">
+          <h3 class="product-name">Fitness Smart Watch</h3>
+          <p class="product-price">$124.50</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <img src="https://placehold.co/400x300/f1f5f9/334155?text=Leather+Bag" class="product-img" alt="Product">
+        <div class="product-info">
+          <h3 class="product-name">Genuine Leather Backpack</h3>
+          <p class="product-price">$65.00</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product-card">
+        <img src="https://placehold.co/400x300/f1f5f9/334155?text=Minimal+Lamp" class="product-img" alt="Product">
+        <div class="product-info">
+          <h3 class="product-name">Minimalist Desk Lamp</h3>
+          <p class="product-price">$42.00</p>
+          <button class="add-to-cart">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="newsletter" id="newsletter">
+    <h2>Stay in the Loop</h2>
+    <p>Subscribe for exclusive deals, new arrivals, and insider-only discounts.</p>
+    <form class="form-group" id="newsletter-form">
+      <input type="email" placeholder="Enter your email" required>
+      <button type="submit">Subscribe</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Support</a>
+      <a href="#">Instagram</a>
+    </div>
+    <p class="copyright">&copy; <span id="year"></span> ShopEase. All rights reserved.</p>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast">Item added to cart!</div>
+
+  <script>
+    // DOM Elements
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const addToCartBtns = document.querySelectorAll('.add-to-cart');
+    const cartCountEl = document.querySelector('.cart-count');
+    const toast = document.getElementById('toast');
+    const newsletterForm = document.getElementById('newsletter-form');
+    const productCards = document.querySelectorAll('.product-card');
+    const yearSpan = document.getElementById('year');
+
+    // Set current year
+    yearSpan.textContent = new Date().getFullYear();
+
+    // Mobile Menu Toggle
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      const icon = hamburger.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
+    });
+
+    // Close mobile menu when link is clicked
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        hamburger.querySelector('i').classList.add('fa-bars');
+        hamburger.querySelector('i').classList.remove('fa-times');
+      });
+    });
+
+    // Cart Functionality
+    let cartCount = 0;
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    addToCartBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        cartCount++;
+        cartCountEl.textContent = cartCount;
+        cartCountEl.style.animation = 'pop 0.3s ease';
+        setTimeout(() => cartCountEl.style.animation = '', 300);
+        showToast('Added to cart!');
+      });
+    });
+
+    // Newsletter Form
+    newsletterForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      showToast('Successfully subscribed!');
+      newsletterForm.reset();
+    });
+
+    // Scroll Animation (Intersection Observer)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    productCards.forEach(card => observer.observe(card));
+  </script>
+</body>
+</html>
